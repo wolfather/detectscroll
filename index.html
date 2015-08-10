@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ES6 Arrow Scroll</title>
+</head>
+<body>
+<style type="text/css">
+  header{height:200px;}
+  .breadcrumb{height: 200px;}
+  .wrapperBanner{height: 80px;}
+
+  body{transition: all ease-in 400ms;}
+
+  .footer{
+    display: block;
+    height: 250px;
+    background: #ccc;
+  }
+
+  #arrowUp, .upArrow{
+    background: #fc0;
+    width: 40px;
+    height: 40px;
+    
+    transform: scale(0);
+    transform-origin: center center;
+    transition: all ease-out 400ms;
+
+    position: fixed;
+    bottom: 5%;
+    right: 2%;
+  }
+  .upArrow.inside{right: 7%;}
+  .upArrow.fadeIn{
+    transform: scale(1);
+  }
+  .upArrow.bottomUp{
+    bottom: 40%;
+  }
+</style>
+  <header>header</header>
+  <section class="breadcrumb">breadcrumb</section>
+  <div class="wrapperBanner">
+    wrapperBanner
+
+  </div>
+
+
+
+  <footer></footer>
+  <script src="js/arrowScroll.js" async defer></script>
+</body>
+</html>
