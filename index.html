@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>ES6 Arrow Scroll</title>
+	<title>Detect Scroll</title>
 </head>
 <body>
 <style type="text/css">
@@ -11,14 +11,17 @@
   .wrapperBanner{height: 80px;}
 
   body{transition: all ease-in 400ms;}
-
+  .content-area{
+    height: 900px;
+    background: #fcc;
+  }
   .footer{
     display: block;
     height: 250px;
     background: #ccc;
   }
 
-  #arrowUp, .upArrow{
+  .up-arrow{
     background: #fc0;
     width: 40px;
     height: 40px;
@@ -31,24 +34,21 @@
     bottom: 5%;
     right: 2%;
   }
-  .upArrow.inside{right: 7%;}
-  .upArrow.fadeIn{
+  .up-arrow.inside{right: 7%;}
+  .arrow-up-fade-in{
     transform: scale(1);
   }
-  .upArrow.bottomUp{
+  .up-arrow.bottomUp{
     bottom: 40%;
   }
 </style>
-  <header>header</header>
-  <section class="breadcrumb">breadcrumb</section>
-  <div class="wrapperBanner">
-    wrapperBanner
+	<header>header</header>
+	<section class="breadcrumb">breadcrumb</section>
+	<div class="wrapperBanner">wrapperBanner</div>
+	<div class="content-area">content area</div>
+	<footer>footer</footer>
 
-  </div>
-
-
-
-  <footer></footer>
-  <script src="js/arrowScroll.js" async defer></script>
+	<script src="build/js/detect.scroll.js" async></script>
+	<script src="build/js/app.main.js" async></script>
 </body>
 </html>
