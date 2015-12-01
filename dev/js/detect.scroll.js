@@ -12,15 +12,29 @@ class DetectScroll {
 	 * @param {bottomHeight} is the property that defines the distance from the bottom page 
 	 *		to make the arrow get up
 	**/
-	constructor(topHeight, bottomHeight) {
+	constructor(topHeight, bottomHeight, parentElementHeight) {
 		this.CLASS_FADE_IN = 'arrow-up-fade-in',
 
 		this.topHeight = topHeight,
 		this.bottomHeight = bottomHeight,
 
+		this.parentElementHeight = parentElementHeight,
+
+		this.sumTopBottom = Math.round(this.topHeight + this.BottomHeight),
+
 		this._d = document,
 		this._body = this._d.body,
 		this._element = this._d.createElement('div')
+	}
+
+	/**
+	 * @desc Check if the page or element has the height greater than 
+	 * 		@param {topHeight} and @param {bottomHeight}. If it does, 
+	 *		return 1 (true), otherwise return 0 (false)
+	 * @return 1 || 0
+	**/
+	CheckHeightPage() {
+		return this.parentElementHeight > this.topHeight ? 1 : 0;
 	}
 
 	get El() {
@@ -34,13 +48,21 @@ class DetectScroll {
 	}
 
 	DetectTop() {
-		return pageYOffset - this.topHeight >= 0 ? this.El.classList.add(this.CLASS_FADE_IN) : this.El.classList.remove(this.CLASS_FADE_IN);
+		return pageYOffset - this.topHeight >= 0 ? 1 : 0;
+	}
+
+	SetClassTop() {
+		return this.DetectTop() ? this.El.classList.add(this.CLASS_FADE_IN) : this.El.classList.remove(this.CLASS_FADE_IN);
 	}
 
 	DetectBottom() {
-		let _classToggleBottom = 'bottomUp';
 		//console.log(pageYOffset);
-		return pageYOffset >= this.bottomHeight ? this.El.classList.add(_classToggleBottom) : this.El.classList.remove(_classToggleBottom);
+		return pageYOffset >= this.bottomHeight ? 1 : 0;
+	}
+
+	SetClassBottom() {
+		let _classToggleBottom = 'arrow-up-bottom-up';
+		return this.DetectBottom() ? this.El.classList.add(_classToggleBottom) : this.El.classList.remove(_classToggleBottom);
 	}
 
 	/**
@@ -76,24 +98,29 @@ class DetectScroll {
 	}
 
 	__Init__() {
-		this._body.appendChild(this.El);
+		if(this.CheckHeightPage()) {
+			this._body.appendChild(this.El);
 
-		this.SetElementProps();
+			this.SetElementProps();
 
-		this.El.addEventListener('click', ()=> {
-			//scrollTo(0, 0);
-			this.scrollUp(10);
-			//this.ToggleArrowUp();
-		});
+			this.El.addEventListener('click', ()=> {
+				//scrollTo(0, 0);
+				this.scrollUp(10);
+				//this.ToggleArrowUp();
+			});
 
-		addEventListener('resize', ()=> {
-			this.LockAxisYPosition();
-		});
+			addEventListener('resize', ()=> {
+				this.LockAxisYPosition();
+			});
 
-		addEventListener('scroll', ()=> {
-			this.DetectTop();
-			this.DetectBottom();
-		});
+			addEventListener('scroll', ()=> {
+				this.SetClassTop();
+				this.SetClassBottom();
+			});
+		}
+		else {
+			console.log('the arrow isn\'t necessary in this page.');
+		}
 	}
 
 }

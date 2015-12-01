@@ -9,5 +9,5 @@ var _qs = function _qs(p) {
 var topHeight = parseInt(_qs("header").offsetHeight + _qs(".breadcrumb").offsetHeight + _qs(".wrapperBanner").offsetHeight);
 var bottomHeight = parseInt(_qs('.footer').offsetTop - _qs('.footer').offsetHeight * 2);
 
-var s = new DetectScroll(topHeight, bottomHeight).__Init__();
+var s = new DetectScroll(topHeight, bottomHeight, innerHeight).__Init__();
 //# sourceMappingURL=app.main.js.map

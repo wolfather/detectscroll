@@ -19,13 +19,25 @@ var DetectScroll = (function () {
   *		to make the arrow get up
  **/
 
-	function DetectScroll(topHeight, bottomHeight) {
+	function DetectScroll(topHeight, bottomHeight, parentElementHeight) {
 		_classCallCheck(this, DetectScroll);
 
-		this.CLASS_FADE_IN = 'arrow-up-fade-in', this.topHeight = topHeight, this.bottomHeight = bottomHeight, this._d = document, this._body = this._d.body, this._element = this._d.createElement('div');
+		this.CLASS_FADE_IN = 'arrow-up-fade-in', this.topHeight = topHeight, this.bottomHeight = bottomHeight, this.parentElementHeight = parentElementHeight, this.sumTopBottom = Math.round(this.topHeight + this.BottomHeight), this._d = document, this._body = this._d.body, this._element = this._d.createElement('div');
 	}
 
+	/**
+  * @desc Check if the page or element has the height greater than 
+  * 		@param {topHeight} and @param {bottomHeight}. If it does, 
+  *		return 1 (true), otherwise return 0 (false)
+  * @return 1 || 0
+ **/
+
 	_createClass(DetectScroll, [{
+		key: 'CheckHeightPage',
+		value: function CheckHeightPage() {
+			return this.parentElementHeight > this.topHeight ? 1 : 0;
+		}
+	}, {
 		key: 'SetElementProps',
 		value: function SetElementProps() {
 			var DEFAULT_NAME = 'up-arrow';
@@ -35,14 +47,24 @@ var DetectScroll = (function () {
 	}, {
 		key: 'DetectTop',
 		value: function DetectTop() {
-			return pageYOffset - this.topHeight >= 0 ? this.El.classList.add(this.CLASS_FADE_IN) : this.El.classList.remove(this.CLASS_FADE_IN);
+			return pageYOffset - this.topHeight >= 0 ? 1 : 0;
+		}
+	}, {
+		key: 'SetClassTop',
+		value: function SetClassTop() {
+			return this.DetectTop() ? this.El.classList.add(this.CLASS_FADE_IN) : this.El.classList.remove(this.CLASS_FADE_IN);
 		}
 	}, {
 		key: 'DetectBottom',
 		value: function DetectBottom() {
-			var _classToggleBottom = 'bottomUp';
 			//console.log(pageYOffset);
-			return pageYOffset >= this.bottomHeight ? this.El.classList.add(_classToggleBottom) : this.El.classList.remove(_classToggleBottom);
+			return pageYOffset >= this.bottomHeight ? 1 : 0;
+		}
+	}, {
+		key: 'SetClassBottom',
+		value: function SetClassBottom() {
+			var _classToggleBottom = 'arrow-up-bottom-up';
+			return this.DetectBottom() ? this.El.classList.add(_classToggleBottom) : this.El.classList.remove(_classToggleBottom);
 		}
 
 		/**
@@ -85,24 +107,28 @@ var DetectScroll = (function () {
 		value: function __Init__() {
 			var _this = this;
 
-			this._body.appendChild(this.El);
+			if (this.CheckHeightPage()) {
+				this._body.appendChild(this.El);
 
-			this.SetElementProps();
+				this.SetElementProps();
 
-			this.El.addEventListener('click', function () {
-				//scrollTo(0, 0);
-				_this.scrollUp(10);
-				//this.ToggleArrowUp();
-			});
+				this.El.addEventListener('click', function () {
+					//scrollTo(0, 0);
+					_this.scrollUp(10);
+					//this.ToggleArrowUp();
+				});
 
-			addEventListener('resize', function () {
-				_this.LockAxisYPosition();
-			});
+				addEventListener('resize', function () {
+					_this.LockAxisYPosition();
+				});
 
-			addEventListener('scroll', function () {
-				_this.DetectTop();
-				_this.DetectBottom();
-			});
+				addEventListener('scroll', function () {
+					_this.SetClassTop();
+					_this.SetClassBottom();
+				});
+			} else {
+				console.log('the arrow isn\'t necessary in this page.');
+			}
 		}
 	}, {
 		key: 'El',

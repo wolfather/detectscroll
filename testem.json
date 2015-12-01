@@ -1,0 +1,16 @@
+{
+	"framework" : "karma",
+	
+	"src_files" : [
+		"dev/*.js",
+		"test/*spec.js"
+	],
+	
+	"test_page" : "test/test.html",
+
+	"src_files_ignore" : "",
+
+	"phantomjs_args": [
+		"--ignore-ssl-errors=true"  
+	]
+}
